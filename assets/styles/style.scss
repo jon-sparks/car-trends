@@ -1,0 +1,29 @@
+:root {
+  --width: 1650px;
+}
+
+.main {
+  font-family: sans-serif;
+  display: grid;
+  grid-template-columns: 1fr minmax(auto, var(--width)) 1fr;
+
+  & > :where(*) {
+    grid-column: 2 / -2;
+    padding: 0 1rem;
+  }
+
+  header, footer, .full-width {
+    grid-column: 1 / 4;
+  }
+}
+
+h3, h4, h5 {
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #e6ecf0;
+}
+
