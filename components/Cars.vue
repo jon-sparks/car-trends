@@ -132,7 +132,7 @@
         :info="`Date logged: ${new Date(mostExpensive.date).toLocaleDateString('en-GB')}`"
       />
     </Snippets>
-    <Charts>
+    <!-- <Charts>
       <Chart>
         <highchart
           :options="chartOptions"
@@ -143,7 +143,7 @@
           :options="chartOptions"
         />
       </Chart>
-    </Charts>
+    </Charts> -->
     
   </section>
 </template>
