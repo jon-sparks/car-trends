@@ -14,11 +14,11 @@
   }
 
   const mostExpensive = computed(() => {
-    return cars.value.sort((a, b) => parseInt(b.price) - parseInt(a.price))[0]
+    return [...cars.value].sort((a, b) => parseInt(b.price) - parseInt(a.price))[0]
   })
 
   const cheapest = computed(() => {
-    return cars.value.sort((a, b) => parseInt(a.price) - parseInt(b.price))[0]
+    return [...cars.value].sort((a, b) => parseInt(a.price) - parseInt(b.price))[0]
   })
 
   const carsMileagePrice = computed(() => {
@@ -119,20 +119,20 @@
     <Snippets>
       <Snippet
         title="Most Expensive"
+        :key="mostExpensive.id"
         :subtitle="`${mostExpensive.year} ${mostExpensive.model}`"
         :value="`$${mostExpensive.price} USD`"
         :url="mostExpensive.url"
-        :info="`Date logged: ${new Date(mostExpensive.date).toLocaleDateString('en-GB')}`"
       />
       <Snippet
         title="Cheapest"
+        :key="cheapest.id"
         :subtitle="`${cheapest.year} ${cheapest.model}`"
         :value="`$${cheapest.price} USD`"
         :url="cheapest.url"
-        :info="`Date logged: ${new Date(mostExpensive.date).toLocaleDateString('en-GB')}`"
       />
     </Snippets>
-    <!-- <Charts>
+    <Charts>
       <Chart>
         <highchart
           :options="chartOptions"
@@ -143,7 +143,7 @@
           :options="chartOptions"
         />
       </Chart>
-    </Charts> -->
+    </Charts>
     
   </section>
 </template>
