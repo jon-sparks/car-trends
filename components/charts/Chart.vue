@@ -3,7 +3,9 @@
 
 <template>
   <section class="chart">
-    <slot></slot>
+    <client-only>
+      <slot></slot>
+    </client-only>
   </section>
 </template>
 

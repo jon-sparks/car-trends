@@ -144,20 +144,6 @@
         />
       </Chart>
     </Charts>
-
-
-    <!-- <div
-      v-for="car in cars"
-      :key="car.car_id"
-    >
-      <ul>
-        <li>{{ car.model }}</li>
-        <li> {{ car.year }}</li>
-        <li>{{ car.mileage }} (km)</li>
-        <li>{{ car.price }} (usd)</li>
-        <li><a :href="car.url" target="_blank">Link</a></li>
-      </ul>
-    </div> -->
     
   </section>
 </template>
