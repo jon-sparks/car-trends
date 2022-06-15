@@ -119,17 +119,17 @@
     <Snippets>
       <Snippet
         title="Most Expensive"
-        :key="mostExpensive.id"
         :subtitle="`${mostExpensive.year} ${mostExpensive.model}`"
         :value="`$${mostExpensive.price} USD`"
         :url="mostExpensive.url"
+        :info="`Date logged: ${new Date(mostExpensive.date).toLocaleDateString('en-GB')}`"
       />
       <Snippet
         title="Cheapest"
-        :key="cheapest.id"
         :subtitle="`${cheapest.year} ${cheapest.model}`"
         :value="`$${cheapest.price} USD`"
         :url="cheapest.url"
+        :info="`Date logged: ${new Date(mostExpensive.date).toLocaleDateString('en-GB')}`"
       />
     </Snippets>
     <Charts>
