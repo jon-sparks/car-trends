@@ -1,7 +1,13 @@
 <script setup>
 
-  const { data: cars } = await useFetch(`https://car-trends-api.herokuapp.com/api/cars`)
+  //Data
+  const cars = ref([])
+  const loading = ref(false)
 
+  //mounted
+  getCars()
+  
+  //Methods
   const modelColour = (model) => {
     if (model.includes(`Mark`)) {
       return `rgba(0, 93, 255, 0.5)`
@@ -13,6 +19,13 @@
     return `rgba(255, 162, 0, 0.5)`
   }
 
+  async function getCars () {
+    loading.value = true
+    cars.value = await $fetch(`https://car-trends-api.herokuapp.com/api/cars`)
+    loading.value = false
+  }
+
+  //Computed
   const mostExpensive = computed(() => {
     return [...cars.value].sort((a, b) => parseInt(b.price) - parseInt(a.price))[0]
   })
@@ -35,116 +48,122 @@
     return models
   })
 
-  const chartOptions = {
-    chart: {
-      type: 'scatter',
-      zoomType: 'xy'
-    },
-    title: {
-      text: 'Price vs. Mileage'
-    },
-
-    // subtitle: {
-    //   text: 'Source: thesolarfoundation.com'
-    // },
-
-    yAxis: {
-      title: {
-        text: 'Price (USD)'
-      }
-    },
-
-    xAxis: {
-      title: {
-          enabled: true,
-          text: 'Mileage (Km)'
+  const chartOptions = computed(() => {
+    return {
+      chart: {
+        type: 'scatter',
+        zoomType: 'xy'
       },
-      startOnTick: true,
-      endOnTick: true,
-      showLastLabel: true
-    },
+      title: {
+        text: 'Price vs. Mileage'
+      },
 
-    legend: {
-      layout: 'vertical',
-      align: 'right',
-      verticalAlign: 'middle'
-    },
+      // subtitle: {
+      //   text: 'Source: thesolarfoundation.com'
+      // },
 
-    plotOptions: {
-      scatter: {
-        marker: {
-          radius: 5,
+      yAxis: {
+        title: {
+          text: 'Price (USD)'
+        }
+      },
+
+      xAxis: {
+        title: {
+            enabled: true,
+            text: 'Mileage (Km)'
+        },
+        startOnTick: true,
+        endOnTick: true,
+        showLastLabel: true
+      },
+
+      legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+      },
+
+      plotOptions: {
+        scatter: {
+          marker: {
+            radius: 5,
+            states: {
+              hover: {
+                enabled: true,
+                lineColor: 'rgb(100,100,100)'
+              }
+            }
+          },
           states: {
             hover: {
-              enabled: true,
-              lineColor: 'rgb(100,100,100)'
+              marker: {
+                enabled: false
+              }
             }
+          },
+          tooltip: {
+            headerFormat: '<b>{series.name}</b><br>',
+            pointFormat: '{point.x}km<br>${point.y} (USD)'
           }
-        },
-        states: {
-          hover: {
-            marker: {
-              enabled: false
-            }
-          }
-        },
-        tooltip: {
-          headerFormat: '<b>{series.name}</b><br>',
-          pointFormat: '{point.x}km<br>${point.y} (USD)'
         }
+      },
+
+      series: carsMileagePrice.value,
+
+      responsive: {
+        rules: [{
+          condition: {
+            maxWidth: 500
+          },
+          chartOptions: {
+            legend: {
+              layout: 'horizontal',
+              align: 'center',
+              verticalAlign: 'bottom'
+            }
+          }
+        }]
       }
-    },
-
-    series: carsMileagePrice.value,
-
-    responsive: {
-      rules: [{
-        condition: {
-          maxWidth: 500
-        },
-        chartOptions: {
-          legend: {
-            layout: 'horizontal',
-            align: 'center',
-            verticalAlign: 'bottom'
-          }
-        }
-      }]
     }
-  }
+  }) 
 </script>
 
 <template>
   <section class="cars">
-    <Snippets>
-      <Snippet
-        title="Most Expensive"
-        :subtitle="`${mostExpensive.year} ${mostExpensive.model}`"
-        :value="`$${mostExpensive.price} USD`"
-        :url="mostExpensive.url"
-        :info="`Date logged: ${new Date(mostExpensive.date).toLocaleDateString('en-GB')}`"
-      />
-      <Snippet
-        title="Cheapest"
-        :subtitle="`${cheapest.year} ${cheapest.model}`"
-        :value="`$${cheapest.price} USD`"
-        :url="cheapest.url"
-        :info="`Date logged: ${new Date(mostExpensive.date).toLocaleDateString('en-GB')}`"
-      />
-    </Snippets>
-    <Charts>
-      <Chart>
-        <highchart
-          :options="chartOptions"
+    <template v-if="loading">
+      Loading...
+    </template>
+    <template v-if="cars.length">
+      <Snippets>
+        <Snippet
+          title="Most Expensive"
+          :subtitle="`${mostExpensive.year} ${mostExpensive.model}`"
+          :value="`$${mostExpensive.price} USD`"
+          :url="mostExpensive.url"
+          :info="`Date logged: ${new Date(mostExpensive.date).toLocaleDateString('en-GB')}`"
         />
-      </Chart>
-      <Chart>
-        <highchart
-          :options="chartOptions"
+        <Snippet
+          title="Cheapest"
+          :subtitle="`${cheapest.year} ${cheapest.model}`"
+          :value="`$${cheapest.price} USD`"
+          :url="cheapest.url"
+          :info="`Date logged: ${new Date(mostExpensive.date).toLocaleDateString('en-GB')}`"
         />
-      </Chart>
-    </Charts>
-    
+      </Snippets>
+      <Charts>
+        <Chart>
+          <highchart
+            :options="chartOptions"
+          />
+        </Chart>
+        <Chart>
+          <highchart
+            :options="chartOptions"
+          />
+        </Chart>
+      </Charts>
+    </template>
   </section>
 </template>
 
