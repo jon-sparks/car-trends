@@ -7,16 +7,6 @@
 
   //mounted
   getCars()
-
-  watch(loading, (current, prev) => {
-    if (current === true) {
-      setTimeout(() => {
-        coldStart.value = true
-      }, 3000)
-    } else {
-      coldStart.value = false
-    }
-  })
   
   //Methods
   const modelColour = (model) => {
@@ -35,6 +25,16 @@
     cars.value = await $fetch(`https://car-trends-api.herokuapp.com/api/cars`)
     loading.value = false
   }
+
+  watchEffect(() => {
+    if (loading.value === true) {
+      setTimeout(() => {
+        coldStart.value = true
+      }, 3000)
+    } else {
+      coldStart.value = false
+    }
+  })
 
   //Computed
   const mostExpensive = computed(() => {
@@ -144,7 +144,7 @@
   <section class="cars">
     <template v-if="loading">
       <Loader />
-      <h1 v-if="coldStart">Please wait. Server is cold starting.</h1>
+      <h2 v-if="coldStart">Please wait. Server is cold starting.</h2>
     </template>
     <template v-else-if="!loading && cars.length">
       <Snippets>
@@ -180,5 +180,9 @@
   grid-template-columns: 1fr;
   gap: 2rem;
   margin-bottom: 7rem;
+
+  h2 {
+    text-align: center;
+  }
 }
 </style>
