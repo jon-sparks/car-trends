@@ -11,10 +11,11 @@
 
 <style lang="scss" scoped>
 .chart {
+  position: relative;
   padding: 1rem;
-  border-radius: 5px;
+  border-radius: var(--border-radius);
   overflow: hidden;
   background: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
 }
 </style>

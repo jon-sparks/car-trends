@@ -2,10 +2,21 @@
 
   //Data
   const cars = ref([])
+  const coldStart = ref(false)
   const loading = ref(false)
 
   //mounted
   getCars()
+
+  watch(loading, (current, prev) => {
+    if (current === true) {
+      setTimeout(() => {
+        coldStart.value = true
+      }, 3000)
+    } else {
+      coldStart.value = false
+    }
+  })
   
   //Methods
   const modelColour = (model) => {
@@ -132,19 +143,20 @@
 <template>
   <section class="cars">
     <template v-if="loading">
-      Loading...
+      <Loader />
+      <h1 v-if="coldStart">Please wait. Server is cold starting.</h1>
     </template>
-    <template v-if="cars.length">
+    <template v-else-if="!loading && cars.length">
       <Snippets>
         <Snippet
-          title="Most Expensive"
+          title="Highest Price"
           :subtitle="`${mostExpensive.year} ${mostExpensive.model}`"
           :value="`$${mostExpensive.price} USD`"
           :url="mostExpensive.url"
           :info="`Date logged: ${new Date(mostExpensive.date).toLocaleDateString('en-GB')}`"
         />
         <Snippet
-          title="Cheapest"
+          title="Lowest Price"
           :subtitle="`${cheapest.year} ${cheapest.model}`"
           :value="`$${cheapest.price} USD`"
           :url="cheapest.url"
@@ -152,11 +164,6 @@
         />
       </Snippets>
       <Charts>
-        <Chart>
-          <highchart
-            :options="chartOptions"
-          />
-        </Chart>
         <Chart>
           <highchart
             :options="chartOptions"
@@ -172,5 +179,6 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
+  margin-bottom: 7rem;
 }
 </style>

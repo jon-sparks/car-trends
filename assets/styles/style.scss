@@ -1,9 +1,16 @@
 :root {
   --width: 1650px;
+  --c-dark: #363636;
+  --c-primary: rgba(154,0,195,1);
+  --c-secondary: rgba(0,47,184,1);
+  --border-radius: 20px;
+  --box-shadow: 0 5px 15px 0px rgb(0 0 0 / 20%);
+  --gradient: linear-gradient(157deg, var(--c-primary) 0%, rgba(79,9,231,1) 71%, var(--c-secondary) 100%);
+  --gradient-light: linear-gradient(45deg, rgba(229,130,255,1) 0%, white 100%);
+  --font: 'Anek Malayalam', sans-serif;
 }
 
 .main {
-  font-family: sans-serif;
   display: grid;
   grid-template-columns: 1fr minmax(auto, var(--width)) 1fr;
 
@@ -24,6 +31,7 @@ h3, h4, h5 {
 body {
   margin: 0;
   padding: 0;
-  background: #e6ecf0;
+  font-family: var(--font);
+  background: rgb(240, 240, 240);
 }
 

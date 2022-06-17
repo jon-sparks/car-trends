@@ -31,11 +31,13 @@
 
 <style lang="scss" scoped>
 .snippet {
+  position: relative;
   background: white;
-  padding: 2rem;
-  border-radius: 5px;
+  padding: 1.5rem 2rem;
+  border-radius: var(--border-radius);
   overflow: hidden;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
+  border-left: solid 5px var(--c-primary);
 
   p {
     margin: 0;
@@ -43,24 +45,26 @@
   }
 
   h3 {
-    font-size: 16px;
-    // font-weight: normal;
-    margin-bottom: .5rem;
+    font-size: 22px;
+    color: var(--c-primary);
+    // margin-bottom: .25rem;
   }
 
   h4 {
     font-size: 18px;
+    font-weight: normal;
     margin-bottom: .25rem;
 
     a {
-      text-decoration: none;
+      // text-decoration: none;
+      text-transform: capitalize;
       color: black;
     }
   }
 
   h5 {
-    font-size: 16px;
-    font-weight: normal;
+    font-size: 20px;
+    // font-weight: normal;
     margin-bottom: 1rem;
   }
 }
